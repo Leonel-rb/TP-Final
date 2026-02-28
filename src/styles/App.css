@@ -235,6 +235,7 @@ body {
     width: 100%;
     height: 100vh;
     overflow: hidden;
+    position: relative;
 }
 
 .nav-rail {
@@ -818,3 +819,146 @@ body {
 @media (min-width: 1200px) {
     .contacts-grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* ── Panel de perfil ── */
+.profile-panel {
+    position: absolute;
+    top: 0;
+    left: 56px; /* justo después del NavRail */
+    width: 320px;
+    height: 100%;
+    background: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    z-index: 20;
+    animation: slide-in-profile 0.2s ease;
+}
+@keyframes slide-in-profile {
+    from { transform: translateX(-20px); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+}
+
+.profile-panel-header {
+    height: 60px;
+    background: var(--header-bg);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    flex-shrink: 0;
+}
+.profile-back-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--sq-green);
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.15s;
+}
+.profile-back-btn:hover { background: var(--border-color); }
+
+.profile-avatar-section {
+    display: flex;
+    justify-content: center;
+    padding: 32px 0 24px;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+.profile-avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    overflow: hidden;
+}
+
+.profile-value-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    gap: 8px;
+}
+
+.profile-edit-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+}
+.profile-edit-btn:hover {
+    background: var(--border-color);
+    color: var(--sq-green);
+}
+
+.profile-info-section {
+    padding: 20px 24px 4px;
+    border-bottom: 1px solid var(--border-color);
+}
+.profile-label {
+    font-size: 0.78rem;
+    color: var(--sq-green);
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.profile-value {
+    font-size: 0.97rem;
+    color: var(--text-color);
+    padding-bottom: 12px;
+}
+
+.profile-logout-btn {
+    margin: auto 24px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: 1px solid var(--sq-red);
+    color: var(--sq-red);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: calc(100% - 48px);
+    justify-content: center;
+}
+.profile-logout-btn:hover { background: rgba(234, 0, 56, 0.08); }
+
+/* El nav-avatar ahora es un button */
+.nav-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface-alt);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--icon-color);
+    transition: background 0.18s;
+}
+.nav-avatar:hover { background: var(--border-color); }
