@@ -1,14 +1,6 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo, useCallback } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useChat } from '../context/ChatContext';
-
-const CommunitySquareIcon = () => (
-    <div className="community-square-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26">
-            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-        </svg>
-    </div>
-);
 
 const CIUDADELA = {
     PhoneNumber: 'ciudadela-ricks',
@@ -19,7 +11,22 @@ const CIUDADELA = {
 
 const Sidebar = ({ activeTab }) => {
     const { contacts } = useChat();
-    const [search, setSearch] = useState('');
+
+    // el buscador vive en la URL: /?q=rick
+    // así si alguien comparte o recarga, la búsqueda se mantiene
+    const [searchParams, setSearchParams] = useSearchParams();
+    const search = searchParams.get('q') || '';
+
+    const handleSearch = useCallback(e => {
+        const val = e.target.value;
+        if (val) {
+            setSearchParams({ q: val });
+        } else {
+            setSearchParams({});
+        }
+    }, [setSearchParams]);
+
+    const clearSearch = useCallback(() => setSearchParams({}), [setSearchParams]);
 
     const chatContacts = useMemo(
         () => contacts.filter(c => c.PhoneNumber !== 'ciudadela-ricks'),
@@ -31,8 +38,6 @@ const Sidebar = ({ activeTab }) => {
         if (!q) return chatContacts;
         return chatContacts.filter(c => c.name.toLowerCase().includes(q));
     }, [chatContacts, search]);
-
-    const handleSearch = useCallback(e => setSearch(e.target.value), []);
 
     return (
         <aside className="sidebar">
@@ -58,7 +63,7 @@ const Sidebar = ({ activeTab }) => {
                                 aria-label="Buscar contacto"
                             />
                             {search && (
-                                <button className="search-clear-btn" onClick={() => setSearch('')} aria-label="Limpiar">✕</button>
+                                <button className="search-clear-btn" onClick={clearSearch} aria-label="Limpiar">✕</button>
                             )}
                         </div>
                     </div>
